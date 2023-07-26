@@ -81,5 +81,28 @@ server.post('/update_student',(req,res)=>{
         res.redirect("/students")
     });
 })
+
+server.get('/search_student',(req,res)=>{
+
+    var id=req.query.id
+    var sql ="select * from register "
+    mysql.query(sql,(err,result)=>{
+        if(err) throw err
+        res.render(__dirname+"/search_student",{students:result})
+    });
+})
+
+server.get('/search',(req,res)=>{
+    var name = req.query.name;
+    var email = req.query.email;
+    var mobile = req.query.mobile;
+
+    var sql = "select * from register where name like '%"+name+"%' AND email like '%"+email+"%' AND mobile like '%"+mobile+"%'"
+    mysql.query(sql,(err,result)=>{
+        if(err) throw err
+        res.render(__dirname+"/search_student",{students:result})
+    })
+
+})
 server.listen(5000,()=>{console.log("Server Running at 5000")})
 
